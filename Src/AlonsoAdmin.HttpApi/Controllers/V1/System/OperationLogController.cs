@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 操作日志
+    /// </summary>
     [Description("操作日志")]
     public class OperationLogController : ModuleBaseController
     {

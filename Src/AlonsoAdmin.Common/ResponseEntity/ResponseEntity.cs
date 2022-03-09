@@ -6,12 +6,25 @@ namespace AlonsoAdmin.Common.ResponseEntity
 {
     public class ResponseEntity<T> : IResponseEntity<T>
     {
+
+        /// <summary>
+        /// 是否成功
+        /// </summary>
         public bool Success { get; private set; }
 
+        /// <summary>
+        /// 结果标识，1是成功，其他为特殊含义
+        /// </summary>
         public int Code { get; private set; }
 
+        /// <summary>
+        /// 消息
+        /// </summary>
         public string Message { get; private set; }
 
+        /// <summary>
+        /// 数据
+        /// </summary>
         public T Data { get; private set; }
 
         public ResponseEntity<T> Ok(T data, string message = "")
@@ -58,7 +71,7 @@ namespace AlonsoAdmin.Common.ResponseEntity
         /// <param name="data">数据</param>
         /// <param name="msg">消息</param>
         /// <returns></returns>
-        public static IResponseEntity Ok<T>(T data = default(T), string msg = "")
+        public static IResponseEntity<T> Ok<T>(T data = default(T), string msg = "")
         {
             return new ResponseEntity<T>().Ok(data, msg);
         }
@@ -73,17 +86,19 @@ namespace AlonsoAdmin.Common.ResponseEntity
             return new ResponseEntity<string>().Error(msg);
         }
 
-        public static IResponseEntity Error<T>(string msg, T data = default(T))
+
+        public static IResponseEntity<T> Error<T>(string msg, T data = default(T))
         {
             return new ResponseEntity<T>().Error(msg, data);
         }
+
 
         public static IResponseEntity Error(string msg, int code)
         {
             return new ResponseEntity<string>().Error(msg, code);
         }
 
-        public static IResponseEntity Error<T>(string msg, int code, T data = default(T))
+        public static IResponseEntity<T> Error<T>(string msg, int code, T data = default(T))
         {
             return new ResponseEntity<T>().Error(msg, code, data);
         }

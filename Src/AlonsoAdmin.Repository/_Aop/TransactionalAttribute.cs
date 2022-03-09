@@ -17,7 +17,7 @@ namespace AlonsoAdmin.Repository
     [Obsolete]
     public class TransactionalAttribute : AbstractInterceptorAttribute
     {
-        public Propagation Propagation { get; set; } = Propagation.Requierd;
+        public Propagation Propagation { get; set; } = Propagation.Required;
         public IsolationLevel? IsolationLevel { get; set; }
 
         public string DbKey { get; set; }

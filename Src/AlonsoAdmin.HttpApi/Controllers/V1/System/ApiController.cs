@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 接口管理
+    /// </summary>
     [Description("接口管理")]
     public class ApiController : ModuleBaseController
     {

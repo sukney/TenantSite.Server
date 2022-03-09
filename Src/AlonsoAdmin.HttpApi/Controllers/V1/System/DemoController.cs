@@ -19,7 +19,9 @@ using static AlonsoAdmin.HttpApi.SwaggerHelper.CustomApiVersion;
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
 
-
+    /// <summary>
+    /// 示例
+    /// </summary>
     [Description("示例")]
     public class DemoController : ModuleBaseController
     {

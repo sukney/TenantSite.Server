@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 权限模板
+    /// </summary>
     [Description("权限模板")]
     public class PermissionController : ModuleBaseController
     {

@@ -20,6 +20,9 @@ using System.Threading.Tasks;
 
 namespace AlonsoAdmin.Services.System.Implement
 {
+    /// <summary>
+    /// 认证服务
+    /// </summary>
     public class AuthService : IAuthService
     {
         private readonly ICache _cache;
@@ -103,6 +106,11 @@ namespace AlonsoAdmin.Services.System.Implement
 
             user = await _userRepository.GetAsync(a => a.UserName == req.UserName && a.Password == password);
 
+            if (user==null)
+            {
+                return ResponseEntity.Error("账号或密码错误!");
+            }
+
             if (user?.Id == "")
             {
                 return ResponseEntity.Error("账号或密码错误!");
@@ -127,7 +135,7 @@ namespace AlonsoAdmin.Services.System.Implement
         /// 得到当前用户的数据归属组
         /// </summary>
         /// <returns></returns>
-        public async Task<IResponseEntity> GetUserGroupsAsync() {
+        public async Task<IResponseEntity<List<GroupForListResponse>>> GetUserGroupsAsync() {
 
             var cacheKey = CacheKeyTemplate.GroupList;
             List<SysGroupEntity> data = new List<SysGroupEntity>();
@@ -146,7 +154,7 @@ namespace AlonsoAdmin.Services.System.Implement
                 await _cache.SetAsync(cacheKey, data);
             }
             var result = _mapper.Map<List<GroupForListResponse>>(data);
-            return ResponseEntity.Ok(result);
+            return ResponseEntity.Ok<List<GroupForListResponse>>(result);
         }
 
         /// <summary>

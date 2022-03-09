@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IGeekFan.AspNetCore.Knife4jUI;
+using IGeekFan.AspNetCore.RapiDoc;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
@@ -13,7 +15,7 @@ namespace AlonsoAdmin.HttpApi
 {
     public static class SwaggerExtensions
     {
-        
+
         public static void RegisterSwagger(this IServiceCollection services)
         {
 
@@ -52,13 +54,24 @@ namespace AlonsoAdmin.HttpApi
 
 
 
-                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                if (File.Exists(xmlPath))
+                //var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //if (File.Exists(xmlPath))
+                //{
+                //    //添加注释到SwaggerUI
+                //    c.IncludeXmlComments(xmlPath);
+                //}
+
+
+
+                DirectoryInfo directoryInfo = new DirectoryInfo(AppContext.BaseDirectory);
+                //获取当前的目录的文件
+                FileInfo[] fileInfos = directoryInfo.GetFiles("*.xml");
+                foreach (FileInfo f in fileInfos)
                 {
-                    //添加注释到SwaggerUI
-                    c.IncludeXmlComments(xmlPath);
+                    c.IncludeXmlComments(f.FullName, true);
                 }
+
 
                 #region 为SwaggerUI添加全局token验证
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -77,12 +90,15 @@ namespace AlonsoAdmin.HttpApi
                         new string[] { }
                     }});
                 #endregion
+
+
             });
             #endregion
 
         }
 
-        public static void UseSwaggerMiddleware(this IApplicationBuilder app) {
+        public static void UseSwaggerMiddleware(this IApplicationBuilder app)
+        {
 
             string ApiName = "AlonsoAdmin";
 
@@ -103,6 +119,40 @@ namespace AlonsoAdmin.HttpApi
                 c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);//折叠Api
             });
 
+
+            app.UseKnife4UI(c =>
+            {
+                var u = "http://localhost:5188";
+                typeof(ApiVersions).GetEnumNames().OrderBy(e => e).ToList().ForEach(version =>
+                {
+                    c.SwaggerEndpoint($"{u}/swagger/{version}/swagger.json", $"{ApiName} {version}");
+                });
+
+
+                c.DocumentTitle = "会员系统模块";
+                c.RoutePrefix = "doc";//http://localhost:5000/index.html
+                                   //c.InjectStylesheet("");
+                //c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                //c.SwaggerEndpoint("/swagger/sys/swagger.json", "sys");
+                //c.SwaggerEndpoint("/swagger/wms/swagger.json", "wms");
+                c.ConfigObject.DefaultModelsExpandDepth = 4;
+                c.ConfigObject.DefaultModelExpandDepth = 4;
+                c.ConfigObject.MaxDisplayedTags = 4;
+                //c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
+                //c.OAuthClientId(Configuration["Service:ClientId"]);
+                //c.OAuthAppName(Configuration["Service:Name"]);
+            });
+
+            app.UseRapiDocUI(c =>
+            {
+                c.RoutePrefix = "RapiDoc"; //http://localhost:5000/RapiDoc/index.html
+
+                typeof(ApiVersions).GetEnumNames().OrderBy(e => e).ToList().ForEach(version =>
+                {
+                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{ApiName} {version}");
+                });
+
+            });
         }
     }
 }

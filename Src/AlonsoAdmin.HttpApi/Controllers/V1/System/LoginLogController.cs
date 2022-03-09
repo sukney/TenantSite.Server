@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
-
+    /// <summary>
+    /// 登录日志
+    /// </summary>
     [Description("登录日志")]
     public class LoginLogController : ModuleBaseController
     {

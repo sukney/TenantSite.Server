@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 组织机构
+    /// </summary>
     [Description("组织机构")]
     public class GroupController : ModuleBaseController
     {

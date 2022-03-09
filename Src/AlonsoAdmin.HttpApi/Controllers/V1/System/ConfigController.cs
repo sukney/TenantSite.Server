@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 配置管理
+    /// </summary>
     [Description("配置管理")]
     public class ConfigController : ModuleBaseController
     {

@@ -14,6 +14,9 @@ using static AlonsoAdmin.HttpApi.SwaggerHelper.CustomApiVersion;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 用户
+    /// </summary>
     [Description("用户")]
     public class UserController : ModuleBaseController
     {

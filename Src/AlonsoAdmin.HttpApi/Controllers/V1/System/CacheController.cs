@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 缓存管理
+    /// </summary>
     [Description("缓存管理")]
     public class CacheController : ModuleBaseController
     {

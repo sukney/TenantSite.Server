@@ -1,9 +1,14 @@
 ﻿using AlonsoAdmin.Common.ResponseEntity;
 using AlonsoAdmin.Services.System.Request;
+using AlonsoAdmin.Services.System.Response;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AlonsoAdmin.Services.System.Interface
 {
+    /// <summary>
+    /// 认证服务
+    /// </summary>
     public interface IAuthService
     {
         /// <summary>
@@ -22,7 +27,7 @@ namespace AlonsoAdmin.Services.System.Interface
         /// <summary>
         /// 得到当前用户的权限数据组
         /// </summary>
-        Task<IResponseEntity> GetUserGroupsAsync();
+        Task<IResponseEntity<List<GroupForListResponse>>> GetUserGroupsAsync();
 
         /// <summary>
         /// 验证当前用户API访问权限

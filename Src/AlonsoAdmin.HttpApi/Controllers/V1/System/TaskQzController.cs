@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 计划任务
+    /// </summary>
     [Description("计划任务")]
     public class TaskQzController : ModuleBaseController
     {

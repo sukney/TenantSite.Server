@@ -23,12 +23,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Quartz.Spi;
 using System.Collections.Generic;
+using Hei.Captcha;
+using AlonsoAdmin.Common.Route;
 
 namespace AlonsoAdmin.HttpApi
 {
     public class Startup
     {
- 
+
         private IWebHostEnvironment Env { get; }
 
         public IConfiguration Configuration { get; }
@@ -61,7 +63,12 @@ namespace AlonsoAdmin.HttpApi
                 //.AllowAnyHeader()
                 //.AllowCredentials());
             });
-
+            services.AddRouting(options =>
+            {
+                //  options.LowercaseQueryStrings = true;
+                //options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
+                options.LowercaseUrls = true;
+            });
             // 得到程序启动需要的参数配置        
             var _startupConfig = Configuration.GetSection("Startup").Get<StartupConfig>();
 
@@ -76,11 +83,12 @@ namespace AlonsoAdmin.HttpApi
             {
                 if (_startupConfig.Log.Operation)
                 {
-                    options.Filters.Add<LogActionFilter>();                    
+                    options.Filters.Add<LogActionFilter>();
                 }
                 options.Filters.Add<ValidateModelFilter>();// 自定义 模型验证
             })
-            .ConfigureApiBehaviorOptions(options => {
+            .ConfigureApiBehaviorOptions(options =>
+            {
                 //关闭默认模型验证,因为我们使用了自己的ValidateModelFilter
                 options.SuppressModelStateInvalidFilter = true;
             })
@@ -92,18 +100,17 @@ namespace AlonsoAdmin.HttpApi
                 // 使用小驼峰
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // new DefaultContractResolver();
                 // 设置时间格式
-                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";             
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
 
 
             });
 
-
             services
                 .AddAuthentication(x =>
                 {
-                      x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                      x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                      x.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme; 
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 //.AddCookie(options =>
                 //{
@@ -133,8 +140,17 @@ namespace AlonsoAdmin.HttpApi
             }
             #endregion
 
-           
-
+            //验证码
+            services.AddHeiCaptcha(o =>
+            {
+                o.FontPath = @"fonts";
+                o.Inflection = 1;
+                o.GaussianBlur = 0.3F;
+                o.Rotate = 10;
+                o.GridThickness = 0.2F;
+                o.GridAlpha = 0.2F;
+                o.FontSize = 0.1F;
+            });
             // 注册 AutoMapper 
             services.RegisterMapper();
             // 注册 多租户 服务
@@ -190,7 +206,7 @@ namespace AlonsoAdmin.HttpApi
             // 对请求进行权限验证
             app.UseAuthorization();
 
-           
+
 
             app.UseEndpoints(endpoints =>
             {

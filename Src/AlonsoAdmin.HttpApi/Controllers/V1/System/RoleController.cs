@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 角色管理
+    /// </summary>
     [Description("角色管理")]
     public class RoleController : ModuleBaseController
     {

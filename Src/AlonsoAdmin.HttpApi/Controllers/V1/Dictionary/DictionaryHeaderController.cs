@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.Dictionary
 {
+    /// <summary>
+    /// 字典管理
+    /// </summary>
     [Description("字典管理")] 
     public class DictionaryHeaderController : ModuleBaseController
     {

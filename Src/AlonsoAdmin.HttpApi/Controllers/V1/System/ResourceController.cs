@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 资源
+    /// </summary>
     [Description("资源")]
     public class ResourceController : ModuleBaseController
     {

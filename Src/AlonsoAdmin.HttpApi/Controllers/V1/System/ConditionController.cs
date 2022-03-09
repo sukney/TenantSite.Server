@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AlonsoAdmin.HttpApi.Controllers.V1.System
 {
+    /// <summary>
+    /// 数据条件
+    /// </summary>
     [Description("数据条件")]
     public class ConditionController : ModuleBaseController
     {
